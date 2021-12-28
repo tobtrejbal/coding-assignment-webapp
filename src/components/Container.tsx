@@ -14,16 +14,26 @@ interface ContainerState {
 }
 
 interface ProductData {
-    id: string,
+    id: number,
     title: string,
     imageUrl: string,
-    comments: Array<Comment>
+    blocks?: Array<Block>,
+    comments?: Array<Comment>
 }
 
+interface Block {
+  id: number,
+  type: string,
+  text?: string,
+  imgUrl?: string,
+  items?: Array<string>
+}
+
+
 interface Comment {
-    id: string,
-    productId: string,
-    parentId: string,
+    id: number,
+    productId: number,
+    parentId?: null | number,
     authorName: string,
     dateGmt: string,
     content: string
@@ -35,14 +45,20 @@ interface Comment {
 class Container extends React.Component<ContainerProps, ContainerState> {
     state = {
       productData: {
-        "id": "",
+        "id": 0,
         "title": "",
         "imageUrl": "",
+        "blocks": [
+          {
+            "id": 0,
+            "type": ""
+          }
+        ],
         "comments": [
             {
-              "id": "",
-              "productId": "",
-              "parentId": "",
+              "id": 0,
+              "productId": 0,
+              "parentId": 0,
               "authorName": "",
               "dateGmt": "",
               "content": ""
@@ -51,19 +67,27 @@ class Container extends React.Component<ContainerProps, ContainerState> {
       }   
     }  
 
-
     render() {
         return (
             <div className="mainDiv">
                 <div className = "contentContainer">
-                    <Header productName = {this.state.productData && this.state.productData.title}
-                            productImgPath = {this.state.productData && this.state.productData.imageUrl} 
+                    <Header productTitle = {this.state.productData && this.state.productData.title}
+                            productImgUrl = {this.state.productData && this.state.productData.imageUrl} 
                     />
-                    <MainSection />
+                    <MainSection blocks = {this.state.productData.blocks}/>
                     <CommentSection />
           </div>
         </div>
       )
+    }
+
+    componentDidMount() {
+      this.loadData();
+    }
+
+    loadData() {
+        this.setState({ productData: productDataJSON});
+        console.log(productDataJSON)
     }
   }
 

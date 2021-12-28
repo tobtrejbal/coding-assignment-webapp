@@ -1,4 +1,7 @@
-export const productDataJSON = [
+/**
+ * Data to load before implementing REST communication.
+ */
+export const productDataJSON = 
     {
       "id": 1,
       "title": "Product 1",
@@ -76,4 +79,3 @@ export const productDataJSON = [
         }
       ]
     }
-  ]
