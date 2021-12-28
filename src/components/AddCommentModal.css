@@ -1,4 +1,4 @@
-.modal {
+.commentModal {
     position: fixed;
     left: 0;
     top: 0;
@@ -10,21 +10,21 @@
     justify-content: center;
   }
   
-  .modal-content {
+  .commentModal-content  {
     width: 500px;
     background-color: #fff;
   }
   
-  .modal-header,
-  .modal-footer {
+  .commentModal-header,
+  .commentModal-footer {
     padding: 10px;
   }
   
-  .modal-title {
+  .commentModal-title {
     margin: 0;
   }
   
-  .modal-body {
+  .commentModal-body {
     padding: 10px;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;

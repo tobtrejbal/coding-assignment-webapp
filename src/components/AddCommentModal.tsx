@@ -1,9 +1,11 @@
 import React from "react";
 import './AddCommentModal.css';
+import { Button, Modal, Form } from 'react-bootstrap';
+
 
 interface AddCommentModalProps {
     show: boolean,
-    commentToReact: string, 
+    commentToReact: string,
     onConfirm(commentAuthor: string, commentContent: string): void,
     onClose(): void
 }
@@ -25,7 +27,7 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
     }
 
     close = () => {
-        this.props.onClose();    
+        this.props.onClose();
     }
 
     updateCommentContent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,14 +46,40 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
         if (!this.props.show) {
             return null;
         }
-
         return (
-            <div className="modal">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h4 className="modal-title">Přidej komentář</h4>
+            <Modal show={this.props.show} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Přidej komentář</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Reagujete na komentář</Form.Label>
+                            <p>{this.props.commentToReact}</p>
+                            <Form.Label>Autor komentáře</Form.Label>
+                            <Form.Control placeholder="Jméno" onChange={this.updateCommentAuthor}/>
+                            <Form.Label>komentář</Form.Label>
+                            <Form.Control as="textarea" placeholder="Komentář" onChange={this.updateCommentContent}/>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={this.confirm}>
+                        Přidat
+                    </Button>
+                    <Button variant="secondary" onClick={this.close}>
+                        Zavřít
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        );
+        {/* non bootstrap modal
+            <div className="commentModal">
+                <div className="commentModal-content">
+                    <div className="commentModal-header">
+                        <h4 className="commentModal-title">Přidej komentář</h4>
                     </div>
-                    <div className="modal-body">
+                    <div className="commentModal-body">
                         <p>{this.props.commentToReact}</p>
                         <form>
                             <label>
@@ -64,14 +92,13 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
                             </label>
                         </form>
                     </div>
-                    <div className="modal-footer">
-                        <button onClick={this.confirm}>Přidat</button>   
-                        <button onClick={this.close}>Zavřít</button>       
+                    <div className="commentModal-footer">
+                        <Button onClick={this.confirm}>Přidat</Button>   
+                        <Button onClick={this.close}>Zavřít</Button>       
                     </div>
                 </div>
-            </div>
-        );
+        </div>*/}
     }
-  };
-  
-  export default AddCommentModal
+};
+
+export default AddCommentModal

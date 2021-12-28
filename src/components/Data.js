@@ -5,6 +5,7 @@ export const productDataJSON =
     {
       "id": 1,
       "title": "Product 1",
+      "description": "test",
       "imageUrl": "https://via.placeholder.com/650x400",
       "blocks": [
         {

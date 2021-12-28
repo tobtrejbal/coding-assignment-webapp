@@ -1,5 +1,6 @@
 import React from "react"
 import './MainSection.css';
+import { Table, Container, Row, Col, Image } from 'react-bootstrap';
 
 interface MainSectionProps {
   blocks: Array<Block>
@@ -35,49 +36,50 @@ interface Image {
 class MainSection extends React.Component<MainSectionProps, MainSectionState> {
   render() {
     return (
-      <div>
-        <h2>Popis produktu</h2>
+      <div className="mt-5">
+        <h2 className="sectionHeadline">Popis produktu</h2>
         {(this.props.blocks || []).map((block, index) => {
           switch (block.type) {
             case 'text_block':
               return (
-                <div key={index}>
-                  <h2>Text</h2>
+                <div className="block" key={index}>
                   <p>{block.text}</p>
                 </div>
               );
             case 'image_block':
               return (
-                <div key={index}>
-                  <h2>Obrázek</h2>
-                  <img src={block.imgUrl} />
+                <div className="block w-50" key={index}>
+                  {<Image src={block.imgUrl} fluid/>}
                 </div>
               );
             case 'list_block':
               return (
-                <div key={index}>
-                  <h2>Seznam</h2>
-                  {(block.items || []).map((item, indexInner) => (
-                    <li key={indexInner}>{item}</li>
-                  ))}
+                <div className="block" key={index}>
+                  <ul>
+                    {(block.items || []).map((item, indexInner) => (
+                      <li key={indexInner}>{item}</li>
+                    ))}
+                  </ul>
                 </div>
               )
-              case 'img_gallery_block':
-                return (
-                  <div key={index}>
-                    <h2>Galerie</h2>
-                    <div className="gallery">
+            case 'img_gallery_block':
+              return (
+                <div className="block" key={index}>
+                  <Container key={index}>
+                    <Row key={index}>
                       {(block.images || []).map((image, indexInner) => (
-                        <img src={image.imgUrl} />
+                        <Col xs={6} md={2} key={"col" + indexInner}>
+                          <Image key={"img" + indexInner} src={image.imgUrl} fluid />
+                        </Col>
                       ))}
-                    </div>
-                  </div>
-                )
+                    </Row>
+                  </Container>
+                </div>
+              )
             case 'table_block':
               return (
-                <div key={index}>
-                  <h2>Paramtery</h2>
-                  <table className="table table-striped">
+                <div className="mt-5" key={index}>
+                  <Table className="table table-striped" key={index}>
                     <thead>
                       <tr>
                         <th>Parametr</th>
@@ -92,7 +94,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </Table>
                 </div>
               )
           }

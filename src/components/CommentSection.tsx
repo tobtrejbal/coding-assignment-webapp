@@ -1,6 +1,7 @@
 import React from "react";
 import AddCommentModal from "./AddCommentModal";
 import './CommentSection.css';
+import { Button } from 'react-bootstrap';
 
 interface CommentSectionProps {
     comments: Array<Comment>,
@@ -35,9 +36,9 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
 
     render() {
         return (
-            <div>
-                <h2 className="header-title">Komentáře</h2>
-                <button onClick={this.showModal}>Vložit komentář</button>
+            <div className="mt-5">
+                <h2>Komentáře</h2>
+                <Button onClick={this.showModal}>Vložit komentář</Button>
                 <AddCommentModal show={this.state.show}
                                  commentToReact={this.state.commentToReact}
                                  onClose = {this.hideModal}
@@ -116,7 +117,7 @@ function Comment({ comments, comment, showModal }: CommentProps) {
                     <h5 className="card-title">{comment.authorName}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{comment.dateGmt}</h6>
                     <p className="card-text">{comment.content}</p>
-                    <button id={"btn_comment_" + comment.id} onClick={showModal}>Odpovědět</button>
+                    <Button id={"btn_comment_" + comment.id} onClick={showModal}>Odpovědět</Button>
                 </div>
             </div>
             {nestedComments}

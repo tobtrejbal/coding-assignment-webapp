@@ -16,6 +16,7 @@ interface ContainerState {
 interface ProductData {
   id: number,
   title: string,
+  description: string,
   imageUrl: string,
   blocks?: Array<Block>,
   comments?: Array<Comment>
@@ -59,6 +60,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
     productData: {
       "id": 0,
       "title": "",
+      "description": "",
       "imageUrl": "",
       "blocks": [
         {
@@ -84,7 +86,8 @@ class Container extends React.Component<ContainerProps, ContainerState> {
       <div className="mainDiv">
         <div className="contentContainer">
           <Header productTitle={this.state.productData && this.state.productData.title}
-            productImgUrl={this.state.productData && this.state.productData.imageUrl}
+                  productImgUrl={this.state.productData && this.state.productData.imageUrl}
+                  productDescription={this.state.productData && this.state.productData.description}
           />
           <MainSection blocks={this.state.productData.blocks} />
           <CommentSection comments={this.state.productData.comments}
@@ -105,7 +108,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
         this.setState({ productData: data[0] });
       })
       .catch(console.log)
-    this.setState({ productData: productDataJSON });
+    //this.setState({ productData: productDataJSON });
     //console.log(productDataJSON)
   }
 
