@@ -75,7 +75,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                             productImgUrl = {this.state.productData && this.state.productData.imageUrl} 
                     />
                     <MainSection blocks = {this.state.productData.blocks}/>
-                    <CommentSection />
+                    <CommentSection comments = {this.state.productData.comments}/>
           </div>
         </div>
       )
