@@ -1,0 +1,17 @@
+.header {
+    width: auto;
+    text-align: center;
+    display: flex;
+    align-self: center;
+    height: 550px;
+  }
+  
+.header-div-img {
+    align-self: center;
+    flex: 1;
+}
+
+.header-div-title {
+    align-self: center;
+    flex:1;
+}

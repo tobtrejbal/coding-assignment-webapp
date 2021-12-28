@@ -26,9 +26,21 @@ interface Block {
   type: string,
   text?: string,
   imgUrl?: string,
-  items?: Array<string>
+  items?: Array<string>,
+  parameters?: Array<Parameter>,
+  images?: Array<Image>
+
 }
 
+interface Parameter {
+  name: string,
+  value: string
+}
+
+interface Image {
+  text: string,
+  imgUrl: string
+}
 
 interface Comment {
   id: number,
@@ -90,15 +102,16 @@ class Container extends React.Component<ContainerProps, ContainerState> {
     fetch('http://localhost:3333/products')
       .then(res => res.json())
       .then((data) => {
-        this.setState({ productData: data[0]});
+        this.setState({ productData: data[0] });
       })
-      .catch(console.log) 
+      .catch(console.log)
     this.setState({ productData: productDataJSON });
-    console.log(productDataJSON)
+    //console.log(productDataJSON)
   }
 
   callbackAddComment = (commentParentId: null | number, commentAuthor: string, commentContent: string) => {
     this.addCommentToDatabase(1, commentParentId, new Date().toISOString(), commentAuthor, commentContent);
+    window.location.reload();
   }
 
   addCommentToDatabase(productId: number, commentParentId: null | number, commentDate: string, commentAuthor: string, commentContent: string) {
@@ -115,7 +128,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
         content: commentContent
       })
     };
-    
+
     /*console.log(JSON.stringify({
       productId: productId,
       parentId: commentParentId,

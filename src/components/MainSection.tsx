@@ -14,7 +14,19 @@ interface Block {
   type: string,
   text?: string,
   imgUrl?: string,
-  items?: Array<string>
+  items?: Array<string>,
+  parameters?: Array<Parameter>,
+  images?: Array<Image>
+}
+
+interface Parameter {
+  name: string,
+  value: string
+}
+
+interface Image {
+  text: string,
+  imgUrl: string
 }
 
 /**
@@ -48,6 +60,39 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                   {(block.items || []).map((item, indexInner) => (
                     <li key={indexInner}>{item}</li>
                   ))}
+                </div>
+              )
+              case 'img_gallery_block':
+                return (
+                  <div key={index}>
+                    <h2>Galerie</h2>
+                    <div className="gallery">
+                      {(block.images || []).map((image, indexInner) => (
+                        <img src={image.imgUrl} />
+                      ))}
+                    </div>
+                  </div>
+                )
+            case 'table_block':
+              return (
+                <div key={index}>
+                  <h2>Paramtery</h2>
+                  <table className="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Parametr</th>
+                        <th>Hodnota</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(block.parameters || []).map((parameter, indexInner) => (
+                        <tr key={"row" + indexInner}>
+                          <td key={"name" + indexInner}>{parameter.name}</td>
+                          <td key={"value" + indexInner}>{parameter.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )
           }
