@@ -25,28 +25,28 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
     return (
       <div>
         <h2>Popis produktu</h2>
-        {(this.props.blocks || []).map((block) => {
+        {(this.props.blocks || []).map((block, index) => {
           switch (block.type) {
             case 'text_block':
               return (
-                <div>
+                <div key={index}>
                   <h2>Text</h2>
                   <p>{block.text}</p>
                 </div>
               );
             case 'image_block':
               return (
-                <div>
+                <div key={index}>
                   <h2>Obrázek</h2>
                   <img src={block.imgUrl} />
                 </div>
               );
             case 'list_block':
               return (
-                <div>
+                <div key={index}>
                   <h2>Seznam</h2>
-                  {(block.items || []).map((item) => (
-                    <li>{item}</li>
+                  {(block.items || []).map((item, indexInner) => (
+                    <li key={indexInner}>{item}</li>
                   ))}
                 </div>
               )

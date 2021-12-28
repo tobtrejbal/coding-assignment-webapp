@@ -4,12 +4,12 @@ import './CommentSection.css';
 
 interface CommentSectionProps {
     comments: Array<Comment>,
-    callbackAddComment(commentToReactID: number, commentAuthor: string, commentContent: string): void,
+    callbackAddComment(commentToReactID: null | number, commentAuthor: string, commentContent: string): void,
 }
 
 interface CommentSectionState {
     commentToReact: string,
-    commentToReactID: number,
+    commentToReactID: null | number,
     show: boolean
 }
 
@@ -30,7 +30,7 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
         show: false,
         commentText: "",
         commentToReact: "",
-        commentToReactID: 0
+        commentToReactID: null
     }
 
     render() {
@@ -75,7 +75,7 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
     showModal = (e: React.MouseEvent<HTMLElement>) => { 
         this.setState({ show: true,
                         commentToReact: "", 
-                        commentToReactID: 0});
+                        commentToReactID: null});
         this.findCommentByID(this.props.comments, e.currentTarget.id);
     };
 
