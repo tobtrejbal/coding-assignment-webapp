@@ -1,0 +1,10 @@
+.mainDiv {
+    background-color: #fff;
+}
+
+.contentContainer {
+    margin: auto;
+    width: 1600px;   
+    background-color: #fff;
+    padding: 50px;
+}
