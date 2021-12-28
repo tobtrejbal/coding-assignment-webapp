@@ -1,12 +1,16 @@
 import React from "react";
+import AddCommentModal from "./AddCommentModal";
 import './CommentSection.css';
 
 interface CommentSectionProps {
-    comments: Array<Comment>
+    comments: Array<Comment>,
+    callbackAddComment(commentToReactID: number, commentAuthor: string, commentContent: string): void,
 }
 
 interface CommentSectionState {
-
+    commentToReact: string,
+    commentToReactID: number,
+    show: boolean
 }
 
 interface Comment {
@@ -22,14 +26,26 @@ interface Comment {
  * Component with product discussion.
  */
 class CommentSection extends React.Component<CommentSectionProps, CommentSectionState> {
+    state = {
+        show: false,
+        commentText: "",
+        commentToReact: "",
+        commentToReactID: 0
+    }
 
     render() {
         return (
             <div>
                 <h2 className="header-title">Komentáře</h2>
+                <button onClick={this.showModal}>Vložit komentář</button>
+                <AddCommentModal show={this.state.show}
+                                 commentToReact={this.state.commentToReact}
+                                 onClose = {this.hideModal}
+                                 onConfirm = {this.addComment}
+                                 />
                 {this.props.comments.filter(commentTofilter => commentTofilter.parentId == null).map((comment) => {
                     return (
-                        <Comment key={comment.id} comments={this.props.comments} comment={comment} type="parent"/>
+                        <Comment key={comment.id} comments={this.props.comments} comment={comment} showModal={this.showModal} type="parent"/>
                     )
                 })}
                 {/* Two level solution
@@ -55,17 +71,42 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
 
         );
     }
+
+    showModal = (e: React.MouseEvent<HTMLElement>) => { 
+        this.setState({ show: true,
+                        commentToReact: "", 
+                        commentToReactID: 0});
+        this.findCommentByID(this.props.comments, e.currentTarget.id);
+    };
+
+    hideModal = () => {
+        this.setState({ show: false });
+    };
+
+    addComment = (commentAuthor: string, commentContent: string) => {
+        this.hideModal();
+        this.props.callbackAddComment(this.state.commentToReactID, commentAuthor, commentContent);
+    } 
+
+    findCommentByID = (comments: Array<Comment>, id: string) => {
+        comments.map((comment) => {
+            if(("btn_comment_" + comment.id) == id) {
+                this.setState({commentToReact: comment.content, commentToReactID: comment.id});
+            };           
+        })    
+    };
 }
 
 interface CommentProps {
     comments: Array<Comment>
     comment: Comment,
-    type: string
+    type: string,
+    showModal(e: React.MouseEvent): void;
 }
 
-function Comment({ comments, comment }: CommentProps) {
+function Comment({ comments, comment, showModal }: CommentProps) {
     const nestedComments = (comments.filter(commentTofilter => commentTofilter.parentId == comment.id) || []).map(comment => {
-        return <Comment key={comment.id} comments={comments} comment={comment} type="child" />
+        return <Comment key={comment.id} comments={comments} comment={comment} showModal={showModal} type="child" />
     })
 
     return (
@@ -75,6 +116,7 @@ function Comment({ comments, comment }: CommentProps) {
                     <h5 className="card-title">{comment.authorName}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{comment.dateGmt}</h6>
                     <p className="card-text">{comment.content}</p>
+                    <button id={"btn_comment_" + comment.id} onClick={showModal}>Odpovědět</button>
                 </div>
             </div>
             {nestedComments}

@@ -75,7 +75,8 @@ class Container extends React.Component<ContainerProps, ContainerState> {
                             productImgUrl = {this.state.productData && this.state.productData.imageUrl} 
                     />
                     <MainSection blocks = {this.state.productData.blocks}/>
-                    <CommentSection comments = {this.state.productData.comments}/>
+                    <CommentSection comments = {this.state.productData.comments}
+                                    callbackAddComment = {this.callbackAddComment}/>
           </div>
         </div>
       )
@@ -89,6 +90,20 @@ class Container extends React.Component<ContainerProps, ContainerState> {
         this.setState({ productData: productDataJSON});
         console.log(productDataJSON)
     }
+
+    callbackAddComment = (commentParentId: number, commentAuthor: string, commentContent: string) => {
+      //this.setState({addCommentText: commentText});
+      this.addCommentToDatabase("1", commentParentId, new Date().toISOString(), commentAuthor, commentContent);
+    } 
+
+    addCommentToDatabase(productId: string, commentParentId: number, commentDate: string, commentAuthor: string, commentContent: string) {
+      console.log(JSON.stringify({
+        productId: productId,
+        parentID: commentParentId, 
+        authorName: commentAuthor,
+        dateGmt: commentDate,
+        content: commentContent}));
+    } 
   }
 
   export default Container
