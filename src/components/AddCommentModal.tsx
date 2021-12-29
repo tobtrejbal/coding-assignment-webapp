@@ -11,7 +11,10 @@ interface AddCommentModalProps {
 
 interface AddCommentModalState {
     commentAuthor: string,
-    commentContent: string
+    commentContent: string,
+    nameIsInvalid: boolean,
+    commentIsInvalid: boolean,
+    validationError: string
 }
 
 /**
@@ -20,14 +23,23 @@ interface AddCommentModalState {
 class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentModalState> {
     state = {
         commentAuthor: "",
-        commentContent: ""
+        commentContent: "",
+        nameIsInvalid: false,
+        commentIsInvalid: false,
+        validationError: ""
     }
 
-    confirm = () => {
-        this.props.onConfirm(this.state.commentAuthor, this.state.commentContent);
+    confirm = (e: React.MouseEvent) => {
+        if (this.validateValues()) {
+            this.props.onConfirm(this.state.commentAuthor, this.state.commentContent);
+        }
     }
 
     close = () => {
+        this.setState({
+            nameIsInvalid: false,
+            commentIsInvalid: false
+        });
         this.props.onClose();
     }
 
@@ -43,6 +55,35 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
         });
     }
 
+    validateValues = (): boolean => {
+        var formIsValid: boolean;
+        var nameIsInvalid: boolean;
+        var commentIsInvalid: boolean;
+
+        formIsValid = true;
+
+        if (this.state.commentAuthor === "") {
+            formIsValid = false;
+            nameIsInvalid = true;
+        } else {
+            nameIsInvalid = false;
+        }
+
+        if (this.state.commentContent === "") {
+            formIsValid = false;
+            commentIsInvalid = true;
+        } else {
+            commentIsInvalid = false;
+        }
+
+        this.setState({
+            nameIsInvalid: nameIsInvalid,
+            commentIsInvalid: commentIsInvalid
+        });
+
+        return formIsValid;
+    }
+
     render() {
         if (!this.props.show) {
             return null;
@@ -50,26 +91,32 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
         return (
             <Modal show={this.props.show} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Přidej komentář</Modal.Title>
+                    <Modal.Title>Add comment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Reagujete na komentář</Form.Label>
+                            <Form.Label>Comment to react</Form.Label>
                             <p>{this.props.commentToReact}</p>
-                            <Form.Label>Autor komentáře</Form.Label>
-                            <Form.Control placeholder="Jméno" onChange={this.updateCommentAuthor}/>
-                            <Form.Label>komentář</Form.Label>
-                            <Form.Control as="textarea" placeholder="Komentář" onChange={this.updateCommentContent}/>
+                            <Form.Label>Your name</Form.Label>
+                            <Form.Control isInvalid={this.state.nameIsInvalid} placeholder="Your name" onChange={this.updateCommentAuthor} />
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid name.
+                            </Form.Control.Feedback>
+                            <Form.Label>Comment</Form.Label>
+                            <Form.Control isInvalid={this.state.commentIsInvalid} as="textarea" placeholder="Comment" onChange={this.updateCommentContent} />
+                            <Form.Control.Feedback type="invalid">
+                                Comment field cannot be empty.
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.confirm}>
-                        Přidat
+                        Save
                     </Button>
                     <Button variant="secondary" onClick={this.close}>
-                        Zavřít
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>

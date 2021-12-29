@@ -82,26 +82,39 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
   }
 
   render() {
-    return (
-      <div>
-        <Header productTitle={this.state.productData.title}
-          productImgUrl={this.state.productData.imageUrl}
-          productDescription={this.state.productData.description}
-        />
-        <Description blocks={this.state.productData.blocks} />
-        <CommentSection comments={this.state.productData.comments}
-          callbackAddComment={this.callbackAddComment} />
-      </div>
-    )
+    if (this.state.productData.id != 0) {
+      return (
+        <div>
+          <Header productTitle={this.state.productData.title}
+            productImgUrl={this.state.productData.imageUrl}
+            productDescription={this.state.productData.description}
+          />
+          <Description blocks={this.state.productData.blocks} />
+          <CommentSection comments={this.state.productData.comments}
+            callbackAddComment={this.callbackAddComment} />
+        </div>
+      )
+    } else {
+      return (
+        <h1>Product not found</h1>
+      )
+    }
   }
 
   componentDidMount() {
     this.loadData();
   }
 
+  /**
+   * Callback function - passed to comment section.
+   * @param commentParentId ID of parent comment, could be null if it's top one.
+   * @param commentAuthor Author of comment.
+   * @param commentContent Content of comment.
+   */
   callbackAddComment = (commentParentId: null | number, commentAuthor: string, commentContent: string) => {
     this.addCommentToDatabase(this.props.productId, commentParentId, new Date().toISOString(), commentAuthor, commentContent);
-    window.location.reload();
+    this.loadData();
+    //window.location.reload();
   }
 
   async loadData() {

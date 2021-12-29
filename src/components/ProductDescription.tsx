@@ -1,12 +1,12 @@
 import React from "react"
-import './Description.css';
+import './MainSection.css';
 import { Table, Container, Row, Col, Image } from 'react-bootstrap';
 
-interface DescriptionProps {
+interface ProductDescriptionProps {
   blocks: Array<Block>
 }
 
-interface DescriptionState {
+interface ProductDescriptionState {
 
 }
 
@@ -31,13 +31,13 @@ interface Image {
 }
 
 /**
- * Component with product description - renders "blocks" of information based on their type.
+ * Component with product description and other info.
  */
-class Description extends React.Component<DescriptionProps, DescriptionState> {
+class ProductDescription extends React.Component<ProductDescriptionProps, ProductDescriptionState> {
   render() {
     return (
       <div className="mt-5">
-        <h2 className="sectionHeadline">Product description</h2>
+        <h2 className="sectionHeadline">Popis produktu</h2>
         {(this.props.blocks || []).map((block, index) => {
           switch (block.type) {
             case 'text_block':
@@ -49,7 +49,7 @@ class Description extends React.Component<DescriptionProps, DescriptionState> {
             case 'image_block':
               return (
                 <div className="block w-50" key={index}>
-                  {<Image src={block.imgUrl} alt={block.text} fluid />}
+                  {<Image src={block.imgUrl} fluid />}
                 </div>
               );
             case 'list_block':
@@ -69,7 +69,7 @@ class Description extends React.Component<DescriptionProps, DescriptionState> {
                     <Row key={index}>
                       {(block.images || []).map((image, indexInner) => (
                         <Col xs={6} md={2} key={"col" + indexInner}>
-                          <Image key={"img" + indexInner} src={image.imgUrl} alt={image.text} fluid />
+                          <Image key={"img" + indexInner} src={image.imgUrl} fluid />
                         </Col>
                       ))}
                     </Row>
@@ -82,8 +82,8 @@ class Description extends React.Component<DescriptionProps, DescriptionState> {
                   <Table className="table table-striped" key={index}>
                     <thead>
                       <tr>
-                        <th>Parameter</th>
-                        <th>Value</th>
+                        <th>Parametr</th>
+                        <th>Hodnota</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -97,7 +97,6 @@ class Description extends React.Component<DescriptionProps, DescriptionState> {
                   </Table>
                 </div>
               )
-            default: return null;
           }
         })}
       </div>
@@ -105,4 +104,4 @@ class Description extends React.Component<DescriptionProps, DescriptionState> {
   }
 }
 
-export default Description
+export default ProductDescription

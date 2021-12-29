@@ -37,16 +37,16 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
     render() {
         return (
             <div className="mt-5">
-                <h2 className="sectionHeadline">Komentáře</h2>
-                <Button onClick={this.showModal}>Vložit komentář</Button>
+                <h2 className="sectionHeadline">Comments</h2>
+                <Button onClick={this.showModal}>Add comment</Button>
                 <AddCommentModal show={this.state.show}
-                                 commentToReact={this.state.commentToReact}
-                                 onClose = {this.hideModal}
-                                 onConfirm = {this.addComment}
-                                 />
+                    commentToReact={this.state.commentToReact}
+                    onClose={this.hideModal}
+                    onConfirm={this.addComment}
+                />
                 {this.props.comments.filter(commentTofilter => commentTofilter.parentId == null).map((comment) => {
                     return (
-                        <Comment key={comment.id} comments={this.props.comments} comment={comment} showModal={this.showModal} type="parent"/>
+                        <Comment key={comment.id} comments={this.props.comments} comment={comment} showModal={this.showModal} type="parent" />
                     )
                 })}
             </div>
@@ -54,11 +54,13 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
         );
     }
 
-    showModal = (e: React.MouseEvent<HTMLElement>) => { 
+    showModal = (e: React.MouseEvent<HTMLElement>) => {
         // Clear all variables before showing modal.
-        this.setState({ show: true,
-                        commentToReact: "", 
-                        commentToReactID: null});
+        this.setState({
+            show: true,
+            commentToReact: "",
+            commentToReactID: null
+        });
         this.findCommentByID(this.props.comments, e.currentTarget.id);
     };
 
@@ -74,7 +76,7 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
     addComment = (commentAuthor: string, commentContent: string) => {
         this.hideModal();
         this.props.callbackAddComment(this.state.commentToReactID, commentAuthor, commentContent);
-    } 
+    }
 
     /**
      * Finds and set variables for replied comment.
@@ -83,10 +85,10 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
      */
     findCommentByID = (comments: Array<Comment>, id: string) => {
         comments.map((comment) => {
-            if(("btn_comment_" + comment.id) == id) {
-                this.setState({commentToReact: comment.content, commentToReactID: comment.id});
-            };           
-        })    
+            if (("btn_comment_" + comment.id) == id) {
+                this.setState({ commentToReact: comment.content, commentToReactID: comment.id });
+            };
+        })
     };
 }
 
@@ -116,7 +118,7 @@ function Comment({ comments, comment, showModal }: CommentProps) {
                     <h5 className="card-title">{comment.authorName}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{comment.dateGmt}</h6>
                     <p className="card-text">{comment.content}</p>
-                    <Button id={"btn_comment_" + comment.id} onClick={showModal}>Odpovědět</Button>
+                    <Button id={"btn_comment_" + comment.id} onClick={showModal}>Reply</Button>
                 </div>
             </div>
             {nestedComments}
