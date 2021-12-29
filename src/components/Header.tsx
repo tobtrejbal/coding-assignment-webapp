@@ -21,7 +21,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             <div className="container">
                 <div className="row">
                     <div className="col-sm">
-                        <Image src={this.props.productImgUrl} fluid />
+                        <Image src={this.props.productImgUrl} alt="title image of product" fluid />
                     </div>
                     <div className="col-sm">
                         <h1 className="header-title">{this.props.productTitle}</h1>

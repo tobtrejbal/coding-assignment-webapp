@@ -37,7 +37,7 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
     render() {
         return (
             <div className="mt-5">
-                <h2>Komentáře</h2>
+                <h2 className="sectionHeadline">Komentáře</h2>
                 <Button onClick={this.showModal}>Vložit komentář</Button>
                 <AddCommentModal show={this.state.show}
                                  commentToReact={this.state.commentToReact}
@@ -49,31 +49,13 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
                         <Comment key={comment.id} comments={this.props.comments} comment={comment} showModal={this.showModal} type="parent"/>
                     )
                 })}
-                {/* Two level solution
-                    this.props.comments.filter(commentTofilter => commentTofilter.parentId == null).map((comment) => (
-                    <div className="commentSection-commentBlock">
-                        <div className="card-body">
-                            <h5 className="card-title">{comment.authorName}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">{comment.dateGmt}</h6>
-                            <p className="card-text">{comment.content}</p>
-                            {this.props.comments.filter(commentTofilter => commentTofilter.parentId == comment.id).map((comment2) => (
-                                <div className="commentSection-commentBlock">
-                                    <div className="card-body">
-                                        <h5 className="card-title">{comment2.authorName}</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">{comment2.dateGmt}</h6>
-                                        <p className="card-text">{comment2.content}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                            ))*/}
             </div>
 
         );
     }
 
     showModal = (e: React.MouseEvent<HTMLElement>) => { 
+        // Clear all variables before showing modal.
         this.setState({ show: true,
                         commentToReact: "", 
                         commentToReactID: null});
@@ -84,11 +66,21 @@ class CommentSection extends React.Component<CommentSectionProps, CommentSection
         this.setState({ show: false });
     };
 
+    /**
+     * Callback function - passed to modal dialog.
+     * @param commentAuthor Author of comment.
+     * @param commentContent Content of comment.
+     */
     addComment = (commentAuthor: string, commentContent: string) => {
         this.hideModal();
         this.props.callbackAddComment(this.state.commentToReactID, commentAuthor, commentContent);
     } 
 
+    /**
+     * Finds and set variables for replied comment.
+     * @param Array of all comments for product. 
+     * @param id of comment to react. 
+     */
     findCommentByID = (comments: Array<Comment>, id: string) => {
         comments.map((comment) => {
             if(("btn_comment_" + comment.id) == id) {
@@ -105,6 +97,13 @@ interface CommentProps {
     showModal(e: React.MouseEvent): void;
 }
 
+/**
+ * Function to display comment. Recursive approach was necessary because of possible infinite nesting. 
+ * @param comments Array of all comments for product.
+ * @param comment Current comment to display.
+ * @param showmodal Function to display modal dialog to respond.
+ * @returns Div element with current comment.
+ */
 function Comment({ comments, comment, showModal }: CommentProps) {
     const nestedComments = (comments.filter(commentTofilter => commentTofilter.parentId == comment.id) || []).map(comment => {
         return <Comment key={comment.id} comments={comments} comment={comment} showModal={showModal} type="child" />

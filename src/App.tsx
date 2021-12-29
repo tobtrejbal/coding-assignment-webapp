@@ -1,10 +1,15 @@
 import React from 'react';
-import Container from './components/Container';
+import ProductDetail from './components/ProductDetail';
 
 function App() {
-    return (
-      <Container />    
-    );
+
+  return (
+    <div className="mainDiv">
+      <div className="contentContainer">
+        <ProductDetail productId={1} />
+      </div>
+    </div>
+  );
 }
 
 export default App;

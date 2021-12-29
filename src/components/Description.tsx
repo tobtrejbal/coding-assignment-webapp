@@ -1,12 +1,12 @@
 import React from "react"
-import './MainSection.css';
+import './Description.css';
 import { Table, Container, Row, Col, Image } from 'react-bootstrap';
 
-interface MainSectionProps {
+interface DescriptionProps {
   blocks: Array<Block>
 }
 
-interface MainSectionState {
+interface DescriptionState {
 
 }
 
@@ -31,9 +31,9 @@ interface Image {
 }
 
 /**
- * Component with product description and other info.
+ * Component with product description - renders "blocks" of information based on their type.
  */
-class MainSection extends React.Component<MainSectionProps, MainSectionState> {
+class Description extends React.Component<DescriptionProps, DescriptionState> {
   render() {
     return (
       <div className="mt-5">
@@ -49,7 +49,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
             case 'image_block':
               return (
                 <div className="block w-50" key={index}>
-                  {<Image src={block.imgUrl} fluid/>}
+                  {<Image src={block.imgUrl}  alt={block.text} fluid/>}
                 </div>
               );
             case 'list_block':
@@ -69,7 +69,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                     <Row key={index}>
                       {(block.images || []).map((image, indexInner) => (
                         <Col xs={6} md={2} key={"col" + indexInner}>
-                          <Image key={"img" + indexInner} src={image.imgUrl} fluid />
+                          <Image key={"img" + indexInner} src={image.imgUrl}   alt={image.text} fluid />
                         </Col>
                       ))}
                     </Row>
@@ -97,6 +97,7 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
                   </Table>
                 </div>
               )
+            default: return null;
           }
         })}
       </div>
@@ -104,4 +105,4 @@ class MainSection extends React.Component<MainSectionProps, MainSectionState> {
   }
 }
 
-export default MainSection
+export default Description

@@ -1,5 +1,4 @@
 import React from "react";
-import './AddCommentModal.css';
 import { Button, Modal, Form } from 'react-bootstrap';
 
 
@@ -15,7 +14,9 @@ interface AddCommentModalState {
     commentContent: string
 }
 
-// Potřebuji zpět poslat data, jinak const
+/**
+ * Dialog component and managing it's state.
+ */
 class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentModalState> {
     state = {
         commentAuthor: "",
@@ -73,31 +74,6 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
                 </Modal.Footer>
             </Modal>
         );
-        {/* non bootstrap modal
-            <div className="commentModal">
-                <div className="commentModal-content">
-                    <div className="commentModal-header">
-                        <h4 className="commentModal-title">Přidej komentář</h4>
-                    </div>
-                    <div className="commentModal-body">
-                        <p>{this.props.commentToReact}</p>
-                        <form>
-                            <label>
-                                Author:
-                                <input type="text" name="text" value={this.state.commentAuthor} onChange={this.updateCommentAuthor}/>
-                            </label>
-                            <label>
-                                Text:
-                                <input type="text" name="text" value={this.state.commentContent} onChange={this.updateCommentContent}/>
-                            </label>
-                        </form>
-                    </div>
-                    <div className="commentModal-footer">
-                        <Button onClick={this.confirm}>Přidat</Button>   
-                        <Button onClick={this.close}>Zavřít</Button>       
-                    </div>
-                </div>
-        </div>*/}
     }
 };
 

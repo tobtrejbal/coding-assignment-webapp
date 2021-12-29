@@ -1,0 +1,14 @@
+.sectionHeadline {  
+    font-size: 40px; 
+}
+
+.mainDiv {
+    background-color: #BAE2FC;
+  }
+  
+  .contentContainer {
+    margin: auto;
+    max-width: 1600px;   
+    background-color: #fff;
+    padding: 50px;
+  }
