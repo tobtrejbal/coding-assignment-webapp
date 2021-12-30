@@ -1,50 +1,47 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Coding assignment - React webapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+Simple react web application which shows product detail page from API provided by coding-assignment-server application. 
+Page consists of 3 sections
+- Header (product title, info and description)
+- Info (information blocks - text, list, parameters, image, gallery)
+- Comments (discussion of products)
 
-In the project directory, you can run:
+If there is no product on server the app will show "Product not found" instead.
 
+In discussion you can add new comment or reply to existing one. New comments do not persist after restarting server app.
+
+## Libraries used
+
+- typescript
+- react-bootstrap
+- enzyme
+
+## Usage
+
+1. Clone this repository and install dependencies using npm.
+### `npm install`
+
+2. Install and run the server from [https://github.com/grohj/coding-assignment-server](https://github.com/grohj/coding-assignment-server).
+
+3. Runs the app in the development mode.\
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+5. Because project contains only detail page without navigation or product search you will need to change product to load in code (App component > prop - productId).
+## Unit testing
 
-### `npm test`
+There are five tests to test if components draw the right elements based on data or call the right method. In drawing there are tests for both positive and negative result.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Show "product not found" instead of normal page if there is no product for id.
+- Don't show "You are reacting to" in modal for commenting if not replying to anyone.
+- If loadData function is called during ComponentDidMount execution. 
 
-### `npm run build`
+### `npm start test`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-=======
-# coding-assignment-webapp
->>>>>>> d6d6bec4522b84f2d1e55c198cc4f866392f125d
+## Future improvements (pontential to-do)
+- Navigation bar
+- Search for product function
+- More block types (headline, ..)
