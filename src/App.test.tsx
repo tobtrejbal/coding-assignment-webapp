@@ -39,7 +39,7 @@ describe('test', () => {
     const wrapper = shallow<ProductDetail>(<ProductDetail productId={1} />)!;
     const instance = wrapper.instance()!;
     await instance.componentDidMount();
-    console.log(wrapper.html());
+    //console.log(wrapper.html());
     // Assert
     expect(wrapper.text().includes('Product not found')).toBe(false);
   });

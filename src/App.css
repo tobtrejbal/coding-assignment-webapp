@@ -1,10 +1,12 @@
 .mainDiv {
+  min-height : 100vh;
   background-color: #BAE2FC;
 }
 
 .contentContainer {
   margin: auto;
-  max-width: 1600px;   
+  max-width: 1600px;
+  min-height : 100vh;  
   background-color: #fff;
   padding: 50px;
 }

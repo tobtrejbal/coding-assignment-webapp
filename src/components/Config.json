@@ -1,0 +1,5 @@
+{
+  "SERVER_URL": "http://localhost:3333",
+  "SERVER_PATH_PRODUCTS": "/products/",
+  "SERVER_PATH_COMMENTS": "/comments"
+}

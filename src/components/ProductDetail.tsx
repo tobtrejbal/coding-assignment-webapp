@@ -4,6 +4,7 @@ import Description from "./Description"
 import CommentSection from "./CommentSection"
 import { productDataJSON } from "./Data"
 import './ProductDetail.css';
+import config from "./Config.json";
 
 interface ProductDetailProps {
   productId: number
@@ -113,16 +114,14 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
    */
   callbackAddComment = (commentParentId: null | number, commentAuthor: string, commentContent: string) => {
     this.addCommentToDatabase(this.props.productId, commentParentId, new Date().toISOString(), commentAuthor, commentContent);
-    this.loadData();
-    //window.location.reload();
+    window.location.reload();
   }
 
   async loadData() {
     try {
-      const res = await fetch('http://localhost:3333/products');
-      const data = await res.json() as Array<ProductData>;
-      // Server doesn't have method for getting single product, so we have to find it.
-      this.setState({ productData: data.find(product => product.id === this.props.productId)! });
+      const res = await fetch(config.SERVER_URL + config.SERVER_PATH_PRODUCTS + this.props.productId);
+      const data = await res.json() as ProductData;
+      this.setState({ productData: data });
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +142,7 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
       })
     };
     try {
-      const response = await fetch('http://localhost:3333/comments', requestOptions);
+      const response = await fetch(config.SERVER_URL + config.SERVER_PATH_COMMENTS, requestOptions);
     } catch (error) {
       console.log(error);
     }
