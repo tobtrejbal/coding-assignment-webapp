@@ -96,7 +96,7 @@ class AddCommentModal extends React.Component<AddCommentModalProps, AddCommentMo
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Comment to react</Form.Label>
+                            {(this.props.commentToReact != "") && <Form.Label>Comment to react</Form.Label>}
                             <p>{this.props.commentToReact}</p>
                             <Form.Label>Your name</Form.Label>
                             <Form.Control isInvalid={this.state.nameIsInvalid} placeholder="Your name" onChange={this.updateCommentAuthor} />

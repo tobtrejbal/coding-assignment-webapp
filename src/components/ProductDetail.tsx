@@ -101,8 +101,8 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
     }
   }
 
-  componentDidMount() {
-    this.loadData();
+  async componentDidMount() {
+    await this.loadData();
   }
 
   /**
@@ -142,7 +142,6 @@ class ProductDetail extends React.Component<ProductDetailProps, ProductDetailSta
         content: commentContent
       })
     };
-    console.log(requestOptions);
     try {
       const response = await fetch('http://localhost:3333/comments', requestOptions);
     } catch (error) {
