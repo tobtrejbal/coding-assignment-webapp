@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductDetail from './components/ProductDetail';
 import './App.css';
+import ProductStore from './model/ProductStore';
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
   return (
     <div className="mainDiv">
       <div className="contentContainer">
-        <ProductDetail productId={Number(id)} />
+        <ProductDetail productId={Number(id)}
+                      productStore={new ProductStore()} />
       </div>
     </div>
   );

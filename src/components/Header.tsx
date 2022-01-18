@@ -15,22 +15,20 @@ interface HeaderState {
 /**
  * Header component. Contains product image and title.
  */
-class Header extends React.Component<HeaderProps, HeaderState> {
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm">
-                        <Image src={this.props.productImgUrl} alt="title image of product" fluid />
-                    </div>
-                    <div className="col-sm">
-                        <h1 className="header-title">{this.props.productTitle}</h1>
-                        <p className="header-description">{this.props.productDescription}</p>
-                    </div>
+export const Header = ({ productImgUrl, productTitle, productDescription }: HeaderProps) => {
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-sm">
+                    <Image src={productImgUrl} alt="title image of product" fluid />
+                </div>
+                <div className="col-sm">
+                    <h1 className="header-title">{productTitle}</h1>
+                    <p className="header-description">{productDescription}</p>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Header

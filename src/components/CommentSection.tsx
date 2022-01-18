@@ -2,96 +2,62 @@ import React from "react";
 import AddCommentModal from "./AddCommentModal";
 import './CommentSection.css';
 import { Button } from 'react-bootstrap';
+import { Comment } from '../model/ObjectTypes'
 
 interface CommentSectionProps {
     comments: Array<Comment>,
     callbackAddComment(commentToReactID: null | number, commentAuthor: string, commentContent: string): void,
 }
 
-interface CommentSectionState {
-    commentToReact: string,
-    commentToReactID: null | number,
-    show: boolean
-}
-
-interface Comment {
-    id: number,
-    productId: number,
-    parentId?: null | number,
-    authorName: string,
-    dateGmt: string,
-    content: string
-}
-
 /**
- * Component with product discussion.
+ * Header component. Contains product image and title.
  */
-class CommentSection extends React.Component<CommentSectionProps, CommentSectionState> {
-    state = {
-        show: false,
-        commentText: "",
-        commentToReact: "",
-        commentToReactID: null
+ export const CommentSection = ({ comments, callbackAddComment }: CommentSectionProps) => {
+    const [showModal, setShowModal] = React.useState(false);
+    const [commentToReact, setCommentToReact] = React.useState("");
+    const [commentToReactID, setCommentToReactID] = React.useState(0);
+    
+    const handleShowModal = (e: React.MouseEvent<HTMLElement>) => {
+        setShowModal(true);
+        setCommentToReact("");
+        setCommentToReactID(0);
+
+        findCommentByID(comments, e.currentTarget.id);
     }
 
-    render() {
-        return (
+    const handleHideModal = () => {
+        setShowModal(false);
+    }
+
+    const findCommentByID = (comments: Array<Comment>, id: string) => {
+        const selectedComment: Comment | undefined = comments.find(comment => `btn_comment_${comment.id}` == id);
+        setCommentToReact(selectedComment!.content);
+        setCommentToReactID(selectedComment!.id);
+    }
+
+    const addComment = (commentAuthor: string, commentContent: string) => {
+        handleHideModal();
+        callbackAddComment(commentToReactID, commentAuthor, commentContent);
+    }
+    
+    return (
             <div className="mt-5">
                 <h2 className="sectionHeadline">Comments</h2>
-                <Button onClick={this.showModal}>Add comment</Button>
-                <AddCommentModal show={this.state.show}
-                    commentToReact={this.state.commentToReact}
-                    onClose={this.hideModal}
-                    onConfirm={this.addComment}
+                <Button onClick={handleShowModal}>Add comment</Button>
+                <AddCommentModal showModal={showModal}
+                    commentToReact={commentToReact}
+                    onClose={handleHideModal}
+                    onConfirm={addComment}
                 />
-                {this.props.comments.filter(commentTofilter => commentTofilter.parentId == null).map((comment) => {
+                {comments.filter(commentTofilter => commentTofilter.parentId == null).map((comment) => {
                     return (
-                        <Comment key={comment.id} comments={this.props.comments} comment={comment} showModal={this.showModal} type="parent" />
+                        <RenderComment key={comment.id} comments={comments} comment={comment} showModal={handleShowModal} type="parent" />
                     )
                 })}
             </div>
 
         );
-    }
-
-    showModal = (e: React.MouseEvent<HTMLElement>) => {
-        // Clear all variables before showing modal.
-        this.setState({
-            show: true,
-            commentToReact: "",
-            commentToReactID: null
-        });
-        this.findCommentByID(this.props.comments, e.currentTarget.id);
-    };
-
-    hideModal = () => {
-        this.setState({ show: false });
-    };
-
-    /**
-     * Callback function - passed to modal dialog.
-     * @param commentAuthor Author of comment.
-     * @param commentContent Content of comment.
-     */
-    addComment = (commentAuthor: string, commentContent: string) => {
-        this.hideModal();
-        this.props.callbackAddComment(this.state.commentToReactID, commentAuthor, commentContent);
-    }
-
-    /**
-     * Finds and set variables for replied comment.
-     * @param Array of all comments for product. 
-     * @param id of comment to react. 
-     */
-    findCommentByID = (comments: Array<Comment>, id: string) => {
-        comments.map((comment) => {
-            if (("btn_comment_" + comment.id) == id) {
-                this.setState({ commentToReact: comment.content, commentToReactID: comment.id });
-            };
-        })
-    };
 }
-
 interface CommentProps {
     comments: Array<Comment>
     comment: Comment,
@@ -106,9 +72,9 @@ interface CommentProps {
  * @param showmodal Function to display modal dialog to respond.
  * @returns Div element with current comment.
  */
-function Comment({ comments, comment, showModal }: CommentProps) {
+function RenderComment({ comments, comment, showModal }: CommentProps) {
     const nestedComments = (comments.filter(commentTofilter => commentTofilter.parentId == comment.id) || []).map(comment => {
-        return <Comment key={comment.id} comments={comments} comment={comment} showModal={showModal} type="child" />
+        return <RenderComment key={comment.id} comments={comments} comment={comment} showModal={showModal} type="child" />
     })
 
     return (

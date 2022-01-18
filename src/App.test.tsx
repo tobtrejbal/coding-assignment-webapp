@@ -11,7 +11,7 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 configure({ adapter: new Adapter() });
 
 describe('test', () => {
-  test('test if load data was called when componentDidMount is called', async () => {
+  /*test('test if load data was called when componentDidMount is called', async () => {
     // Arrange  
     // Act
     const wrapper = shallow<ProductDetail>(<ProductDetail productId={2} />)!;
@@ -74,5 +74,5 @@ describe('test', () => {
     // Assert
     expect(wrapper.text().includes('Comment to react')).toBe(true);
   }
-  )
+  )*/
 });
